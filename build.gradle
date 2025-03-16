@@ -1,0 +1,61 @@
+plugins {
+    id("io.micronaut.library") version "3.4.0"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+}
+
+version = "0.1"
+group = "example.micronaut"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // lombok
+    annotationProcessor "org.projectlombok:lombok:1.18.24"
+    implementation("org.projectlombok:lombok:1.18.24")
+    // org.json
+	implementation 'org.json:json:20220320'
+    
+    implementation("com.amazonaws:aws-lambda-java-events:3.11.0")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+
+    implementation("io.micronaut.aws:micronaut-function-aws")
+
+    // DB
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    
+    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
+}
+
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+micronaut {
+    runtime("lambda_java")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("example.micronaut.*")
+    }
+}
+
+
+tasks.named("assemble") {
+    dependsOn(":shadowJar")
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
