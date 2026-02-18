@@ -1,5 +1,5 @@
 plugins {
-    id("io.micronaut.library") version "3.4.0"
+    id("io.micronaut.library") version "4.4.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -21,12 +21,12 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("jakarta.annotation:jakarta.annotation-api")
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
-
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.aws:micronaut-function-aws")
+    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime")
 
     // DB
-    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("org.mybatis:mybatis:3.5.16")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     
@@ -54,6 +54,12 @@ micronaut {
 
 tasks.named("assemble") {
     dependsOn(":shadowJar")
+}
+
+tasks.named("shadowJar") {
+    manifest {
+        attributes("Main-Class": "example.micronaut.FuncRuntime")
+    }
 }
 
 compileJava.options.encoding = 'UTF-8'
