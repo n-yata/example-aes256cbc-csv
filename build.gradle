@@ -24,6 +24,7 @@ dependencies {
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.aws:micronaut-function-aws")
     implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime")
+    implementation("io.opentelemetry:opentelemetry-api:1.45.0")
 
     // DB
     implementation("org.mybatis:mybatis:3.5.16")
